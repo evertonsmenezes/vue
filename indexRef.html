@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.js</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+
+<style>
+    img {
+        max-width: 45px;
+        max-height: 45px;
+    }
+</style>
+
+<body class="p-3">
+    <div>
+        <div id="app">
+            <div class="d-flex">
+                <img src="https://vuejs.org/images/logo.png" alt="vue logo">
+                <h1>{{ titulo }}</h1>
+            </div>
+
+            <hr />
+
+            <h4>databind</h4>
+            <sp>{{ bind }}</sp>
+            <br />
+            <input v-model="bind" />
+            <h4>v-once</h4>
+            <p v-once>{{ bind }}</p> <!-- Don't change when "bind" changes -->
+
+            <br />
+
+            <form v-on:submit.prevent="alert">
+                <h4>method</h4>
+                <span>Name: </span>
+                <input v-model="name" />
+
+                <input type="submit" value="Alert" />
+            </form>
+
+            <br />
+            <h4>Watch (Observer)</h4>
+            <input v-model="email" /><span>Changes: {{ countEmailChanges }}</span>
+
+            <br />
+            <br />
+
+            <h4>v-if</h4>
+            <span>Age: </span>
+            <input v-model="age" type="number" />
+            <h4 v-if="age < 18" class="text-danger">Age less than 18</h4>
+            <h4 v-if="age >= 18" class="text-success">Age Ok</h4>
+
+            <br />
+            <h4>loop</h4>
+            <ul>
+                <li v-for="todo in todos">
+                    {{ todo.text }}
+                </li>
+            </ul>
+            <input v-on:click="addTodo" value="add" type="button" />
+            <input v-on:click="removeTodo" value="remove" type="button" />
+
+            <br />
+            <br />
+            <div v-html="htmlExample"></div>
+
+            <br />
+            <br />
+            <h4>Js in line</h4>
+            <p>{{ ('R$' + (5723.54654).toFixed(2)).replace('.',',') }}</p>
+
+            <br />
+            <br />
+            <h4>Filter</h4>
+            <p>{{ 5723.54654 | TrataValor }}</p>
+
+
+            <br />
+            <br />
+            <component-table-template v-bind:titles="tableHeader" v-bind:values="tableData"></component-table-template>
+            <p>Total (method): {{ totalTable() | TrataValor }}</p>
+            <p>Total (computed): {{ totalTableComputed | TrataValor }}</p>
+
+            <p>countMethod: {{ countMethod }}</p>
+            <p>countComputed: {{ countComputed }}</p>
+
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script>
+            Vue.component('component-table-template', {
+                props: ['titles', 'values'],
+                template: '<table style="width: 100%">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th v-for="title in titles">{{ title }}</th>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '<tr v-for="value in values">' +
+                    '<td v-for="item in value">{{ item }}</td>' +
+                    '</tr>' +
+                    '</tbody>' +
+                    '</table>'
+            })
+
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    titulo: "Vue.js",
+                    bind: "Initial value",
+                    name: "",
+                    age: 17,
+                    todos: [
+                        { text: 'Learning..' },
+                        { text: 'Learning....' },
+                        { text: 'Learning......' }
+                    ],
+                    tableHeader: [
+                        'Name', 'E-mail', 'Cost'
+                    ],
+                    tableData: [
+                        { name: 'Everton1', email: 'everton@gmail1', cost: 144.2342 },
+                        { name: 'Everton2', email: 'everton@gmail2', cost: 3252.12 },
+                        { name: 'Everton3', email: 'everton@gmail3', cost: 12432.22342 },
+                        { name: 'Everton4', email: 'everton@gmail4', cost: 2143.23 }
+                    ],
+                    htmlExample: '<a href="#">It is a link</a>',
+                    countMethod: 0,
+                    countComputed: 0,
+                    email: '',
+                    countEmailChanges: 0
+                },
+                methods: {
+                    alert: function () {
+                        const { name } = this;
+
+                        if (!name)
+                            alert("Name doesn't informed ");
+                        else
+                            alert(`Name: ${this.name}`);
+                    },
+                    addTodo: function () {
+                        const { todos } = this;
+
+                        todos.push({ text: `Learning..${todos.map(t => '..').join('')}` })
+                    },
+                    removeTodo: function () {
+                        this.todos.pop();
+                    },
+                    totalTable: function () {
+                        //this.countMethod++;
+                        return this.tableData.map(a => a.cost).reduce((a, b) => a + b);
+                    }
+                },
+                filters: {
+                    TrataValor: function (originalValue) {
+                        return ('R$' + (originalValue).toFixed(2)).replace('.', ',')
+                    }
+                },
+                computed: {
+                    totalTableComputed: function (originalValue) {
+                        this.countComputed++;
+                        return this.tableData.map(a => a.cost).reduce((a, b) => a + b);
+                    }
+                },
+                watch: {
+                    email: function (prevValue) {
+                        this.countEmailChanges++;
+                        this.email = prevValue.toUpperCase();
+                    }
+                }
+            });
+
+
+        </script>
+    </div>
+</body>
+
+</html>

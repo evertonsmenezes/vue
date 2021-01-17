@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue.js</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+</head>
+
+<style>
+    img {
+        max-width: 45px;
+        max-height: 45px;
+    }
+</style>
+
+<body class="p-3">
+    <div>
+        <div id="app">
+            <div class="d-flex">
+                <img src="https://vuejs.org/images/logo.png" alt="vue logo">
+                <h1>{{ title }}</h1>
+            </div>
+
+            <hr />
+
+            <h4>Form</h4>
+
+            <div class="d-flex flex-column">
+                <span>Text: {{ text }}</span>
+                <input type="text" v-model="text" />
+            </div>
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Textarea: </span>
+                <pre>{{ textarea }}</pre>
+                <textarea type="text" v-model="textarea" rows="2" cols="60"></textarea>
+            </div>
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Checkbox: {{ checkbox ? 'Yes' : 'No' }}</span>
+                <div class="flex">
+                    <input type="checkbox" v-model="checkbox" id="accept" />
+                    <label for="accept">Accept</label>
+                </div>
+            </div>
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Multiple Checkbox: {{ receiveEmail }}</span>
+                <div class="flex">
+                    <input type="checkbox" v-model="receiveEmail" value="email" id="email" />
+                    <label for="email">Receive e-mail</label>
+                    <input type="checkbox" v-model="receiveEmail" value="sms" id="sms" />
+                    <label for="sms">Receive sms</label>
+                </div>
+            </div>
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Radio: {{ radio }}</span>
+                <div class="flex">
+                    <input type="radio" v-model="radio" id="radioM" value="M" />
+                    <label for="radioM">Male</label>
+
+                    <input type="radio" v-model="radio" id="radioF" value="F" />
+                    <label for="radioF">Male</label>
+                </div>
+            </div>
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Select: {{ year }}</span>
+                <div class="flex">
+                    <select v-model="year">
+                        <option disabled>Choose the year</option>
+                        <option value="2021">2021</option>
+                        <option>2022</option>
+                        <option>2023</option>
+                    </select>
+                </div>
+            </div>
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Mult Select: {{ color }}</span>
+                <div class="flex">
+                    <select multiple v-model="color">
+                        <option disabled>Choose the color</option>
+                        <option>blue</option>
+                        <option>red</option>
+                        <option>green</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Text Lazy: {{ textLazy }}</span>
+                <input type="text" v-model.lazy="textLazy" />
+            </div>
+
+            <br />
+            <div class="d-flex flex-column">
+                <span>Text number: {{ age }} ({{ typeof age }}) </span>
+                <input type="number" v-model.number="age" />
+            </div>
+
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <script>
+
+
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    title: 'Vue.js',
+                    text: '',
+                    textarea: '',
+                    checkbox: false,
+                    receiveEmail: [],
+                    radio: 'M',
+                    year: null,
+                    color: null,
+                    textLazy: '',
+                    age: null
+                }
+            });
+
+
+        </script>
+    </div>
+</body>
+
+</html>
